@@ -1,14 +1,14 @@
 package tumblrclient
 
 import (
-	"net/url"
-	"net/http"
-	"io/ioutil"
 	"errors"
-	"strings"
 	"github.com/dghubble/oauth1"
 	"github.com/tumblr/tumblr.go"
 	"golang.org/x/net/context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"strings"
 )
 
 const apiBase = "https://api.tumblr.com/v2/"
@@ -17,8 +17,8 @@ const apiBase = "https://api.tumblr.com/v2/"
 type Client struct {
 	tumblr.ClientInterface
 	consumer *oauth1.Config
-	user *oauth1.Token
-	client *http.Client
+	user     *oauth1.Token
+	client   *http.Client
 }
 
 // Constructor with only the consumer key and secret
@@ -54,12 +54,12 @@ func (c *Client) Get(endpoint string) (tumblr.Response, error) {
 
 // Issue GET request to Tumblr API with param values
 func (c *Client) GetWithParams(endpoint string, params url.Values) (tumblr.Response, error) {
-	return getResponse(c.GetHttpClient().Get(createRequestURI(appendPath(apiBase,endpoint),params)))
+	return getResponse(c.GetHttpClient().Get(createRequestURI(appendPath(apiBase, endpoint), params)))
 }
 
 // Issue POST request to Tumblr API
 func (c *Client) Post(endpoint string) (tumblr.Response, error) {
-	return c.PostWithParams(endpoint, url.Values{});
+	return c.PostWithParams(endpoint, url.Values{})
 }
 
 // Issue POST request to Tumblr API with param values
@@ -69,7 +69,7 @@ func (c *Client) PostWithParams(endpoint string, params url.Values) (tumblr.Resp
 
 // Issue PUT request to Tumblr API
 func (c *Client) Put(endpoint string) (tumblr.Response, error) {
-	return c.PutWithParams(endpoint, url.Values{});
+	return c.PutWithParams(endpoint, url.Values{})
 }
 
 // Issue PUT request to Tumblr API with param values
@@ -83,7 +83,7 @@ func (c *Client) PutWithParams(endpoint string, params url.Values) (tumblr.Respo
 
 // Issue DELETE request to Tumblr API
 func (c *Client) Delete(endpoint string) (tumblr.Response, error) {
-	return c.DeleteWithParams(endpoint, url.Values{});
+	return c.DeleteWithParams(endpoint, url.Values{})
 }
 
 // Issue DELETE request to Tumblr API with param values
@@ -149,15 +149,15 @@ func getResponse(resp *http.Response, e error) (tumblr.Response, error) {
 }
 
 // Creates a PostRef out of an id and blog name
-func (c *Client) GetPost(id uint64, blogName string) (*tumblr.PostRef) {
+func (c *Client) GetPost(id uint64, blogName string) *tumblr.PostRef {
 	return tumblr.NewPostRef(c, &tumblr.MiniPost{
-		Id: id,
+		Id:       id,
 		BlogName: blogName,
 	})
 }
 
 // Creates a BlogRef out of the provided name
-func (c *Client) GetBlog(name string) (*tumblr.BlogRef) {
+func (c *Client) GetBlog(name string) *tumblr.BlogRef {
 	return tumblr.NewBlogRef(c, name)
 }
 
